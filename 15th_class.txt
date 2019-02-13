@@ -1,0 +1,126 @@
+CREATE TABLE education
+(
+id int PRIMARY KEY AUTO_INCREMENT,
+name varchar(50),
+description varchar(150)
+);
+
+CREATE TABLE employeeImage
+(
+id int PRIMARY KEY AUTO_INCREMENT,
+name varchar(50),
+title varchar(150)
+);
+
+create table employeeContact
+(
+id int PRIMARY KEY AUTO_INCREMENT,
+employeeId int,
+contact varchar(20) UNIQUE
+);
+
+create table maritalStatus
+(
+id int PRIMARY KEY AUTO_INCREMENT,
+name varchar(10) NOT NULL
+);
+
+create table gender
+(
+id int PRIMARY KEY AUTO_INCREMENT,
+name varchar(10) NOT NULL
+);
+
+create table bloodGroup
+(
+id int PRIMARY KEY AUTO_INCREMENT,
+name varchar(10) NOT NULL
+);
+
+create table religion
+(
+id int PRIMARY KEY AUTO_INCREMENT,
+name varchar(30) NOT NULL
+);
+
+create table presentAbsent
+(
+id int PRIMARY KEY AUTO_INCREMENT,
+name TINYINT NOT NULL
+);
+
+CREATE table employee
+(
+id INT PRIMARY KEY AUTO_INCREMENT,
+cardNo varchar(50) UNIQUE NOT NULL,
+name varchar(50) NOT NULL,
+dateOfBirth DATE NOT NULL,
+fathersName varchar(50),
+mothersName varchar(50),
+address varchar(50),
+email varchar(50) UNIQUE,
+genderId int,
+bloodGroupId int,
+religionId int,
+maritalStatusId int,
+nationalID int UNIQUE NOT NULL,
+FOREIGN KEY (genderId) REFERENCES gender(id),
+FOREIGN KEY (bloodGroupId) REFERENCES bloodGroup(id),
+FOREIGN KEY (religionId) REFERENCES religion(id),
+FOREIGN KEY (maritalStatusId) REFERENCES maritalStatus(id)
+);
+
+CREATE TABLE salary
+(
+id int PRIMARY KEY AUTO_INCREMENT,
+employeeId int,
+basic int,
+houseRent int,
+medical int,
+food int,
+conveyance int,
+stamp int,
+grandTotal int,
+FOREIGN KEY (employeeId) REFERENCES employee(id)
+);
+
+CREATE TABLE salaryOvertime
+(
+id int PRIMARY KEY AUTO_INCREMENT,
+salaryId int,
+hours int,
+rate int,
+FOREIGN KEY (salaryId) REFERENCES salary(id)
+);
+
+CREATE TABLE salaryAdvanced
+(
+id INT PRIMARY KEY AUTO_INCREMENT, 
+salaryId INT,
+amount INT,
+FOREIGN KEY (salaryId) REFERENCES salary(id) 
+);
+
+CREATE TABLE attendance
+(
+id int PRIMARY KEY AUTO_INCREMENT,
+employeeId int,
+inTime DATETIME,
+outTime DATETIME,
+presentAbsentId int,
+attendanceDate DATE,
+FOREIGN KEY (employeeId) REFERENCES employee(id),
+FOREIGN KEY (presentAbsentId) REFERENCES presentAbsent(id)
+);
+
+CREATE TABLE employeeEducation
+(
+employeeId int,
+educationId int,
+year varchar(4),
+FOREIGN KEY (employeeId) REFERENCES employee(id),
+FOREIGN KEY (educationId) REFERENCES education(id),
+primary key(employeeId, educationId)
+);
+
+INSERT INTO gender(name) VALUES ('Male'), ('Female');

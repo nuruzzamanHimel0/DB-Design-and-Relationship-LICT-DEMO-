@@ -1,0 +1,161 @@
+CREATE TABLE education
+(
+id INT PRIMARY KEY AUTO_INCREMENT,
+name varchar(50) NOT NULL,
+description varchar(150)
+);
+
+CREATE TABLE religion
+(
+id INT PRIMARY KEY AUTO_INCREMENT,
+Name varchar(40) NOT NULL
+);
+
+CREATE TABLE maritalStatus
+(
+id INT PRIMARY KEY AUTO_INCREMENT,
+Name varchar(40) NOT NULL
+);
+
+CREATE TABLE gender
+(
+id INT PRIMARY KEY AUTO_INCREMENT,
+name varchar(50) NOT NULL
+);
+CREATE TABLE BloodGroup
+(
+id INT PRIMARY KEY AUTO_INCREMENT,
+name varchar(50) NOT NULL
+);
+
+CREATE TABLE PresentAbsent
+(
+id INT PRIMARY KEY AUTO_INCREMENT,
+name varchar(50) NOT NULL
+);
+
+
+CREATE table employee
+(
+id INT PRIMARY KEY AUTO_INCREMENT, (// primary key measn unique and auto increment means not null)
+cardNo varchar(50) UNIQUE NOT NULL,
+name varchar(50) NOT NULL,
+dateOfBirth DATE NOT NULL,
+fathersName varchar(50),
+mothersName varchar(50),
+address varchar(50),
+email varchar(50) UNIQUE,
+genderId int,
+bloodGroupId int,
+religionId int,
+maritalStatusId int,
+nationalID int UNIQUE NOT NULL,
+FOREIGN KEY (genderId) REFERENCES gender(id),
+FOREIGN KEY (bloodGroupId) REFERENCES bloodGroup(id),
+FOREIGN KEY (religionId) REFERENCES religion(id),
+FOREIGN KEY (maritalStatusId) REFERENCES maritalStatus(id)
+);
+
+CREATE TABLE employeeExperiences
+(
+id INT PRIMARY KEY AUTO_INCREMENT,
+employeeId INT,
+name varchar(50) NOT NULL,
+description varchar(150),
+FOREIGN KEY (employeeId) REFERENCES employee(id)
+);
+
+CREATE TABLE employeeSkills
+(
+id INT PRIMARY KEY AUTO_INCREMENT,
+employeeId INT,
+name varchar(50) NOT NULL,
+description varchar(150),
+FOREIGN KEY (employeeId) REFERENCES employee(id)
+);
+
+CREATE TABLE salary
+(
+id int PRIMARY KEY AUTO_INCREMENT,
+employeeId int,
+basic int,
+houseRent int,
+medical int,
+food int,
+conveyance int,
+stamp int,
+grandTotal int,
+FOREIGN KEY (employeeId) REFERENCES employee(id)
+);
+
+CREATE TABLE salaryOvertime
+(
+id int PRIMARY KEY AUTO_INCREMENT,
+salaryId int,
+hours int,
+rate int,
+FOREIGN KEY (salaryId) REFERENCES salary(id)
+);
+
+CREATE TABLE salaryAttendanceBonus
+(
+id INT PRIMARY KEY AUTO_INCREMENT,
+salaryId INT,
+attBonus INT,
+FOREIGN KEY (salaryId) REFERENCES salary(id)
+);
+
+CREATE TABLE salaryAdvanced
+(
+id INT PRIMARY KEY AUTO_INCREMENT, 
+salaryId INT,
+amount INT,
+FOREIGN KEY (salaryId) REFERENCES salary(id) 
+);
+
+CREATE TABLE employeeImage
+(
+id INT PRIMARY KEY AUTO_INCREMENT,
+employeeId INT,
+title varchar(40),
+FOREIGN KEY (employeeId) REFERENCES employee(id)
+);
+
+CREATE TABLE employeeContact
+(
+id INT PRIMARY KEY AUTO_INCREMENT,
+employeeId INT,
+contact varchar(30) UNIQUE,
+FOREIGN KEY(employeeId ) REFERENCES employee(id)
+);
+
+CREATE TABLE empoyeeEducation
+(
+employeeId INT,
+educationId INT,
+year varchar(4),
+FOREIGN KEY (employeeId) REFERENCES employee(id),
+FOREIGN KEY (educationId) REFERENCES education(id),
+PRIMARY KEY(employeeId , educationId)
+);
+
+CREATE TABLE attendance
+(
+id INT PRIMARY KEY AUTO_INCREMENT,
+employeeId int,
+inTime DATETIME,
+outTime DATETIME,
+presentAbsentId int,
+attendanceDate DATE,
+FOREIGN KEY (employeeId) REFERENCES employee(id),
+FOREIGN KEY (presentAbsentId) REFERENCES presentAbsent(id)   
+);
+CREATE TABLE accessControlList
+(
+employeeId INT,
+CardNo varchar(50) UNIQUE NOT NULL,
+password varchar(50) UNIQUE NOT NULL,
+type INT,
+logHistory INT,
+FOREIGN KEY (employeeId) REFERENCES employee(id)
+);
